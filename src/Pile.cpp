@@ -6,17 +6,30 @@ using namespace std;
 
 // Constructeur par défaut
 template <class T>
-Pile <T>::Pile() : size(0), container(NULL), p_first(nullptr), p_next(nullptr) {}
+//Pile <T>::Pile() : container(NULL), size(0), p_first(nullptr), p_next(nullptr) {
+Pile<T>::Pile() {
+    this->container = 0;
+    this->size = 0;
+    this->p_first = nullptr;
+    this->p_next = nullptr;
+}
 
 
 // Constructeur surchargé
 template <class T>
-Pile<T>::Pile(Pile* first, T container) {
+Pile<T>::Pile(Pile* first, T container): Pile<T>::Pile(){
     // On initialise les valeurs de notre objet
-    this->p_first = first;
-    this->size = this->p_first->getSize() + 1;
     this->container = container;
+    this->p_first = first;
     this->p_next = nullptr;
+
+    if (this->p_first != nullptr)
+        this->size = (this->p_first->getSize()) + 1;
+    else
+        this->size = 1;
+
+    cout << "- this  : " << this << endl;
+    cout << "- first : " << first << endl;
 
     // On se replace sur la tête de liste
     Pile* lecture = new Pile();
@@ -96,13 +109,26 @@ void Pile<T>::depiler(){
     delete lecture-> p_next;
     setNext(nullptr);
     delete lecture;
-    setSize(getSize()--);
+    this->size = this->getSize() - 1;
 }
 
 template <class T>
 void Pile<T>::piler(T newContainer) {
-    Pile* newPile = new Pile();
+    Pile* newPile = new Pile(this, newContainer);
 
+    cout << "this   : " << this << endl;
+    cout << "Tcont  : " << this->container << endl;
+    cout << "Tsize  : " << this->size << endl;
+    cout << "Tfirst : " << this->p_first << endl;
+    cout << "Tnext  : " << this->p_next << endl << endl;
+
+    cout << "new    : " << newPile << endl;
+    cout << "Ncont  : " << newPile->container << endl;
+    cout << "Nsize  : " << newPile->size << endl;
+    cout << "Nfirst : " << newPile->p_first << endl;
+    cout << "Nnext  : " << newPile->p_next << endl;
+
+/*
     if(newPile){
         newPile->container = newContainer;
 
@@ -111,12 +137,13 @@ void Pile<T>::piler(T newContainer) {
         }
         else {
             *(newPile->getNext()) = nullptr;
-            *(this->getFirst()->getNext()) = newContainer;
+            this->getFirst()->getNext()->setContainer(newContainer);
         }
     }
 
     *(this->getFirst()) = newContainer;
     this->setSize(*(this->getSize())++);
+*/
 }
 
 template <class T>
@@ -127,21 +154,27 @@ void Pile<T>::display(){
     if (this->p_first != nullptr){
         lecture = this->p_first;
     }
+    else
+    {
+        lecture = this;
+    }
 
     // On se promène à travers la liste pour afficher tous les éléments
     cout << "pile = { ";
     for (int i = 0; i < this->getSize() - 1; i++){
         if (strcmp(typeid(lecture).name(),"Point") == 0)
-            cout << lecture->T.toString() << ", ";
+            //cout << lecture->getContainer().toString() << ", ";
+            cout << lecture->getContainer() << ", ";
         else
-            cout << lecture->T << ", ";
+            cout << lecture->getContainer() << ", ";
         lecture = lecture->p_next;
     }
 
     if (strcmp(typeid(lecture).name(), "Point") == 0)
-        cout << lecture->T.toString() << " }" << endl;
+        //cout << lecture->getContainer().toString() << " }" << endl;
+        cout << lecture->getContainer() << " }" << endl;
     else
-        cout << lecture->T << " }" << endl;
+        cout << lecture->getContainer() << " }" << endl;
 
     delete lecture;
 }

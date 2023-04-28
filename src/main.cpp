@@ -13,6 +13,7 @@ type Point que vous aurez créé (int x, int y)
 #include <random>
 
 #include "./include/Pile.h"
+#include "./include/Point.h"
 
 using namespace std;
 
