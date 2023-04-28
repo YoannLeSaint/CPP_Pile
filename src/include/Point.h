@@ -1,28 +1,35 @@
+#pragma once
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <random>
-#include <vector>
-
 using namespace std;
 
-template<class T>
 
-class Point{
+class Point
+{
 private:
-    int x;
-    int y;
+    int X;
+    int Y;
 
 public:
+    // Constructeurs
     Point() = default;
     Point(int x, int y);
 
+    // Destructeur
     ~Point() = default;
 
+    // Getters
     int getX();
     int getY();
 
+    // Setters
     void setX(int x);
     void setY(int y);
+
+    // Méthodes
+    string toString();
 
 protected:
     //
